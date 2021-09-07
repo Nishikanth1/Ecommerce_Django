@@ -1,5 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'products/base.html' %}
+<>
+<body>
+{% block midcontent %}
+<p>Para</p>
+<ul>
+{% for c in products %}
 
-{% block content %}
-{{ context.objects.all() }}
-{% endblock content %}
+ <li> {{ c.title }} </li>
+{% endfor %}
+</ul>
+{% endblock midcontent %}
+
+</body>
