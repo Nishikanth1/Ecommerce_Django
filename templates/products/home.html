@@ -6,7 +6,8 @@
 <ul>
 {% for c in products %}
 
- <li> {{ c.title }} </li>
+ <li> <a href="{{ c.get_absolute_url }}">{{ c.title }} </a></li>
+
 {% endfor %}
 </ul>
 {% endblock midcontent %}
