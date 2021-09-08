@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from .models import Category, Product
+from .forms import ProductCreateForm
 # Create your views here.
 
 
@@ -11,9 +12,27 @@ def all_products(request):
     }
     return render(request, 'products/home.html', context)
 
-def product_detail(request, slug):
-    obj = get_object_or_404(Product, slug=slug)
+def product_detail(request, id):
+    #product = get_object_or_404(Product, slug=slug)
+    product = get_object_or_404(Product, id=id)
     context = {
-        'products': [obj]
+        'product_details': product
     }
-    return render(request, 'products/home.html', context)
+    return render(request, 'products/product_details.html', context)
+
+def product_create(request):
+    create_form = ProductCreateForm(request.POST or None, request.FILES)
+    if create_form:
+        print("if create_form is there ")
+    if create_form.is_valid():
+        print("inside is valid")
+        create_form.save()
+        print("fomr saved")
+        create_form = ProductCreateForm()
+    else:
+        print(create_form.errors.__dict__)
+    context = {
+        'create_form':create_form
+    }
+
+    return render(request,'products/product_create.html', context)
