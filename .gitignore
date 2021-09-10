@@ -1,5 +1,7 @@
-
-*.pyc
 *.sqlite3
-*.iml
+*.pyc
+*.jpeg
+*.png
 *.xml
+*.iml
+.coverage
