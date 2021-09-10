@@ -1,4 +1,4 @@
-{% extends 'products/base.html' %}  {% csrf_token %}
+{% extends 'base.html' %}  {% csrf_token %}
 {% block midcontent %}
 <form action= "." method="POST" enctype="multipart/form-data">{% csrf_token %}
     {{ create_form.as_ul }}

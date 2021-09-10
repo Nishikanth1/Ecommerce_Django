@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block midcontent %}
+
+<p>{{ category.name}}</p>
+
+<p>Description : {{ category.description }}</p>
+<p> Products in this category : <p>
+<ul>
+{% for product in products %}
+    <li><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock midcontent %}

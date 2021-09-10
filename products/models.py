@@ -1,16 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+
+from django.template.defaultfilters import slugify
 # Create your models here.
 
 class Category(models.Model):
     name = models.CharField(max_length=255,db_index=True)
     slug = models.SlugField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name_plural = 'Categories'
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('products:category_list', args=[self.slug])
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
@@ -30,7 +36,11 @@ class Product(models.Model):
         ordering = ('-created',)
 
     def get_absolute_url(self):
-        return reverse('products:product_detail', args=[self.slug])
+        return reverse('products:product_detail', args=[self.id])
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.title)
+        super().save(*args, **kwargs)

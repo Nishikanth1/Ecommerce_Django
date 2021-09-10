@@ -1,4 +1,4 @@
-{% extends 'products/base.html' %}
+{% extends 'base.html' %}
 
 {% block midcontent %}
 <table>
@@ -42,7 +42,7 @@
    <tr>
     <td>Category:</td>
 
-    <td>{{ product_details.category }}</td>
+     <td><a href="{{ product_details.category.get_absolute_url}}">{{ product_details.category.name }}</a></td>
   </tr>
 </table>
 {% endblock midcontent %}
