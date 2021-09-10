@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block midcontent %}
+<table>
+  <tr>
+    <td>Title:</td>
+
+    <td>{{ product_details.title }}</td>
+  </tr>
+    <tr>
+    <td>Description:</td>
+
+    <td>
+      {% if product_details.description != None and product_details.description != '' %}
+      {{ product_details.description }}
+      {% endif %}
+    </td>
+    </tr>
+  <tr>
+    <td>
+      Image
+    </td>
+    <td>
+     <img src="{{ product_details.image.url }}">
+    </td>
+  </tr>
+    <tr>
+    <td>Price:</td>
+
+    <td>{{ product_details.price }}</td>
+  </tr>
+    <tr>
+    <td>InStock:</td>
+    <td>
+    {% if product_details.in_stock %}
+      <p style="color:blue"> Yes </p>
+     {% else %}
+      <p style="color:red"> No </p>
+      {% endif %}
+    </td>
+  </tr>
+   <tr>
+    <td>Category:</td>
+
+     <td><a href="{{ product_details.category.get_absolute_url}}">{{ product_details.category.name }}</a></td>
+  </tr>
+</table>
+{% endblock midcontent %}

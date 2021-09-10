@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+<body>
+{% block midcontent %}
+<p>Para</p>
+<ul>
+{% for c in products %}
+
+ <li> <a href="{{ c.get_absolute_url }}">{{ c.title }} </a></li>
+
+{% endfor %}
+</ul>
+{% endblock midcontent %}
+
+</body>
