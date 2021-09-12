@@ -45,4 +45,44 @@
      <td><a href="{{ product_details.category.get_absolute_url}}">{{ product_details.category.name }}</a></td>
   </tr>
 </table>
+
+<div>
+  <label for="select"> Qty</label>
+  <select id="select">
+    <option value="">1</option>
+    <option value="">2</option>
+    <option value="">3</option>
+    <option value="">4</option>
+  </select>
+</div>
+
+<div>
+  <button type="button" id="add-button" value="{{ product_details.id }}" class="btn btn-secondary btn-sm"> Add to Basket</button>
+</div>
+
+<script>
+  $(document).on("click", "#add-button", function(e) {
+  e.preventDefault();
+  console.log("cp1")
+  $.ajax({
+    type: 'POST',
+    url: '{% url "basket:basket_add"  %}',
+    data: {
+      product_id : $('#add-button').val(),
+      product_qty: $('#select option:selected').text(),
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+      action: 'post'
+    },
+    success: function(json){
+    console.log("json here")
+    console.log(json)
+    document.getElementById("basket-quantity").innerHTML = json.quantity
+    },
+     error: function(xhr , errmsg,  err){}
+
+    });
+    })
+
+</script>
+
 {% endblock midcontent %}

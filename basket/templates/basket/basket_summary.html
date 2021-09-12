@@ -3,5 +3,141 @@
 <p> Basket Summary </p>
 
 {% block midcontent %}
-Basket Page
+<div class="container">
+  <header>Basket Items</header>
+  {% for item in basket %}
+  {% with product_details=item.product %}
+  <div data-index="{{ product_details.id }}" class="row mb-4 border product-item">
+    <table>
+      <tr>
+        <td>Title:</td>
+
+        <td>{{ product_details.title }}</td>
+      </tr>
+        <tr>
+        <td>Description:</td>
+
+        <td>
+          {% if product_details.description != None and product_details.description != '' %}
+          {{ product_details.description }}
+          {% endif %}
+        </td>
+        </tr>
+      <tr>
+        <td>
+          Image
+        </td>
+        <td>
+         <img src="{{ product_details.image.url }}">
+        </td>
+      </tr>
+        <tr>
+        <td>Price:</td>
+
+        <td>{{ item.total_price }}</td>
+      </tr>
+        <tr>
+        <td>InStock:</td>
+        <td>
+        {% if product_details.in_stock %}
+          <p style="color:blue"> Yes </p>
+         {% else %}
+          <p style="color:red"> No </p>
+          {% endif %}
+        </td>
+      </tr>
+       <tr>
+        <td>Category:</td>
+
+         <td><a href="{{ product_details.category.get_absolute_url}}">{{ product_details.category.name }}</a></td>
+      </tr>
+    </table>
+
+    <div>
+      <label for="select"> Qty</label>
+      <select id="select{{product_details.id}}">
+        <option value="">
+        {{ item.quantity }}
+        </option>
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+        <option value="">4</option>
+      </select>
+    </div>
+    <div>
+      <button type="button" id="update-button" data-index="{{ product_details.id }}" class="btn btn-secondary btn-sm update-button"> Update </button>
+    </div>
+
+    <div>
+      <button type="button" id="delete-button" data-index="{{ product_details.id }}" class="btn btn-secondary btn-sm delete-button"> Delete</button>
+    </div>
+
+    {% endwith %}
+  </div>
+
+  {% endfor %}
+   <div>SubTotal: <span id="subtotal">{{basket.get_total_price}} </span></div>
+
+</div>
+
+<script>
+  $(document).on("click", ".delete-button", function(e) {
+  e.preventDefault();
+  var prod_id = $(this).data('index');
+
+  console.log("cp_delete")
+  $.ajax({
+    type: 'POST',
+    url: '{% url "basket:basket_delete"  %}',
+    data: {
+     //product_id : $('#delete-button').val(),
+     product_id : $(this).data('index'),
+      product_qty: $('#select option:selected').text(),
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+      action: 'post'
+    },
+    success: function(json){
+    console.log(json)
+    $('.product-item[data-index="'+ prod_id + '"]').remove()
+    document.getElementById("basket-quantity").innerHTML = json.new_count
+    document.getElementById("subtotal").innerHTML = json.subtotal
+    },
+     error: function(xhr , errmsg,  err){}
+
+    });
+    })
+
+  // update
+  $(document).on("click", ".update-button", function(e) {
+  e.preventDefault();
+  var prod_id = $(this).data('index');
+
+  console.log("cp_update")
+  $.ajax({
+    type: 'POST',
+    url: '{% url "basket:basket_update"  %}',
+    data: {
+     product_id : $(this).data('index'),
+     product_qty: $('#select' + prod_id + ' option:selected').text(),
+     //product_qty: "289",
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+      action: 'post'
+    },
+    success: function(json){
+    console.log(json)
+
+    document.getElementById("basket-quantity").innerHTML = json.new_count
+    document.getElementById("subtotal").innerHTML = json.subtotal
+    },
+     error: function(xhr , errmsg,  err){}
+
+    });
+    })
+
+
+
+
+</script>
+
 {% endblock midcontent %}
