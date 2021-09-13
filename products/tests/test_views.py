@@ -1,6 +1,8 @@
 from unittest import skip
+from importlib import  import_module
 
 from django.http import  HttpRequest
+from django.conf import  settings
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.test import  Client,TestCase, RequestFactory
@@ -40,6 +42,8 @@ class TestViewResponses(TestCase):
 
     def test_homepage_html(self):
         request = HttpRequest()
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
         response = all_products(request)
         html = response.content.decode('utf-8')
         #print(html)
@@ -47,6 +51,9 @@ class TestViewResponses(TestCase):
 
     def test_view_function(self):
         request = self.factory.get('/item/1')
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
+
         response = all_products(request)
         html = response.content.decode('utf-8')
         print(html)

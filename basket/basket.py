@@ -32,7 +32,7 @@ class Basket(object):
             yield(item)
 
     def add(self, product, quantity):
-        product_id = product.id
+        product_id = str(product.id)
         print("product id is {0}".format(product_id))
         if product_id in self.basket:
             self.basket[product_id] = { 'quantity': int(quantity),
@@ -50,6 +50,9 @@ class Basket(object):
         Get the basket data and quantity of items
 
         """
+        total_qty = sum(item['quantity'] for item in self.basket.values())
+        print("total qty is {0}".format(total_qty))
+        print("basket is {0}".format(self.basket))
         return sum(item['quantity'] for item in self.basket.values())
 
     def get_total_price(self):
