@@ -8,13 +8,13 @@
   {% for item in basket %}
   {% with product_details=item.product %}
   <div data-index="{{ product_details.id }}" class="row mb-4 border product-item">
-    <table>
-      <tr>
+    <div>
+      <div>
         <td>Title:</td>
 
         <td>{{ product_details.title }}</td>
-      </tr>
-        <tr>
+      </div>
+        <div>
         <td>Description:</td>
 
         <td>
@@ -22,7 +22,7 @@
           {{ product_details.description }}
           {% endif %}
         </td>
-        </tr>
+        </div>
       <tr>
         <td>
           Image
@@ -36,7 +36,7 @@
 
         <td>{{ item.total_price }}</td>
       </tr>
-        <tr>
+        <div>
         <td>InStock:</td>
         <td>
         {% if product_details.in_stock %}
@@ -45,13 +45,13 @@
           <p style="color:red"> No </p>
           {% endif %}
         </td>
-      </tr>
+      </div>
        <tr>
         <td>Category:</td>
 
          <td><a href="{{ product_details.category.get_absolute_url}}">{{ product_details.category.name }}</a></td>
       </tr>
-    </table>
+    </div>
 
     <div>
       <label for="select"> Qty</label>
