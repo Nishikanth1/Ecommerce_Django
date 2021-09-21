@@ -35,8 +35,7 @@ class Basket(object):
         product_id = str(product.id)
         print("product id is {0}".format(product_id))
         if product_id in self.basket:
-            self.basket[product_id] = { 'quantity': int(quantity),
-                                       }
+            self.basket[product_id]['quantity'] = int(quantity)
         else:
             self.basket[product_id] = {'price':str(product.price),
                                        'quantity': int(quantity),

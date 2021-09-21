@@ -57,7 +57,7 @@ ROOT_URLCONF = 'ecommerce_website.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
+        'DIRS': [os.path.join(BASE_DIR, r'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,6 +135,5 @@ AUTH_USER_MODEL = 'account.UserBase'
 LOGIN_REDIRECT_URL = '/account/dashboard'
 LOGIN_URL = '/account/login'
 
-#PASSWORD_RESET_TIMEOUT_DAYS = 1
-
+PASSWORD_RESET_TIMEOUT_DAYS = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
