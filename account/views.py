@@ -88,6 +88,7 @@ def edit_details(request):
             print("valid form")
             user_form.save()
         else:
+            print("erros {0}".format(user_form.errors))
             print("invalid form")
     else:
         user_form = UserEditForm(instance=request.user)
