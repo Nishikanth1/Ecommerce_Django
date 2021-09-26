@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -96,3 +96,13 @@ def edit_details(request):
         'user_form': user_form
     }
     return render(request, 'account/user/edit_details.html', context)
+
+@login_required
+def delete_user(request):
+    print("getting user to be deleted")
+    user = UserBase.objects.get(user_name=request.user)
+    user.is_active = False
+    print("user set to inactive")
+    user.save()
+    logout(request)
+    return redirect('account:delete_confirmation')
